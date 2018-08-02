@@ -1,0 +1,122 @@
+<script>
+  var products = <%= json_escape((@products.each_with_object({}) {|product, o| o[product.id] = product.variants.map(&:id) }.to_json).html_safe) %>
+  var productIds = Object.keys(products);
+  var selectedAction = null
+</script>
+
+<script src="/assets/cart.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+
+<script>
+  ShopifyPOS.ready(function() {
+    $('#action').on('change', render)
+    $('#submit').on('click', handleSubmit)
+  })
+
+  function getPropName (prop) {
+    return prop.name
+  }
+
+  function lineItemProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        if (cart.line_items.length > 0) {
+          callback(cart.line_items[0].properties.map(getPropName))
+        }
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
+    })
+  }
+
+  function cartProps(callback) {
+    ShopifyPOS.fetchCart({
+      success: function (cart) {
+        callback(cart.properties.map(getPropName))
+      },
+      error: function (errors) {
+        ShopifyPOS.flashError("Oops! Something went wrong.")
+        console.error(errors)
+      }
+    })
+  }
+
+  function toOption(prop) {
+    return $('<option>').text(prop)
+  }
+
+  function render() {
+    var action = $('#action').val()
+    var operation = action.substr(0, 3) // 'add' or 'rem'
+    var object = action.substr(4, 4) // 'line' or 'cart'
+
+    if (operation === 'add') {
+      $('#property-input').show()
+      $('#property-list').hide()
+    } else {
+      $('#property-input').hide()
+      var callback = (function(props) {
+        if (props.length > 0) {
+          $('#property-list')
+            .show()
+            .children('select').empty()
+            .append(props.map(toOption))
+        }
+      });
+      (object === 'line') ? lineItemProps(callback) : cartProps(callback)
+    }
+
+    updateSelectedAction(operation, object)
+  }
+
+  function updateSelectedAction(operation, object) {
+    selectedAction = operation + "-" + object + "-prop"
+  }
+
+  function handleSubmit(e) {
+    switch (selectedAction) {
+      case 'add-cart-prop':
+        addPropertyToCart()
+        break
+      case 'add-line-prop':
+        addPropertyToLineItem()
+        break
+      case 'rem-cart-prop':
+        removePropertyFromCart()
+        break
+      case 'rem-line-prop':
+        removePropertyFromLineItem()
+        break
+    }
+    render()
+    e.preventDefault()
+  }
+</script>
+
+<div class="layout-view--padding">
+
+  <div id="kiosk-orders">
+    <h3>Kiosk Orders</h3>
+    <% if @orders.size > 0 %>
+      <% for order in @orders %>
+        <div class="section stage-kiosk-order" data-order="<%= order.to_json %>">
+          <p>Load order for <%= order.email %></p>
+          <ul>
+            <% for line_item in order.line_items %>
+              <li data-line-item="<%= line_item.to_json %>"<% if line_item.title == 'Product Add On' %> style="display:none;"<% end %>><%= line_item.title %>: <%= line_item.quantity %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="section">
+        No Koiok Orders Present
+      </div>
+    <% end %>
+  </div>
+
+  <div id="user-actions"></div>
+
+</div>
