@@ -4,7 +4,7 @@ class OrderController < ApplicationController
 	before_filter :set_headers
 
 	def kiosk_order
-		puts Colorize.magenta(params)
+		# puts Colorize.magenta(params)
 
 		order = Order.new
 
