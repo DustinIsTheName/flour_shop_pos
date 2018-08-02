@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20180801190626) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "location_id"
-    t.datetime "datetime"
+    t.datetime "date_of_purchase"
     t.string   "zp_date"
     t.string   "zp_time"
     t.text     "note_attributes"

@@ -12,7 +12,7 @@ class OrderController < ApplicationController
     order.first_name = params["kiosk_first_name"]
 	  order.last_name = params["kiosk_last_name"]
 	  order.location_id = params["location_id"]
-	  order.datetime = params["datetime"]
+	  order.date_of_purchase = params["datetime"]
 	  order.zp_date = params["zpDate"]
 		order.zp_time = params["zpTime"]
 		order.note_attributes = params["attributes"]
