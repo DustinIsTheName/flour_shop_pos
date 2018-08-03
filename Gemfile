@@ -23,6 +23,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'shopify_app'
 gem 'figaro'
+gem 'rack-cors', '~> 0.3.1'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
