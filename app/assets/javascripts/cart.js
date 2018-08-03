@@ -67,10 +67,24 @@ function addKioskOrder() {
         }
       })
 
-      line_items.forEach(function(line_item) {
+      line_items.forEach(function(line_item, index) {
         cart.addLineItem({variant_id: line_item.variant_id, quantity: line_item.quantity}, {success: function(cart) {
           console.log("Item added to cart");
         }, error: errorCallback});
+
+        var propertiesObject = {};
+        line_item.properties.forEach(function(property) {
+          propertiesObject[property.name] = property.value;
+        });
+
+        cart.addLineItemProperties(index, propertiesObject, {
+          success: function(cart) {
+            console.log("Successfully added properties to item")
+          },
+          error: function(errors) {
+            console.log("Failed to add properties to item")
+          }
+        });
       });
 
       successCallback("Loaded Order");
