@@ -2,7 +2,9 @@ ShopifyPOS.ready(function() {
   document.querySelector('#user-actions').style.display = "block";
 });
 
-$('.stage-kiosk-order').click(addKioskOrder);
+$(document).ready(function() {
+  $('.stage-kiosk-order').click(addKioskOrder);
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +33,8 @@ function clearCart() {
 function addKioskOrder() {
   clearCart();
   removeCustomerFromCart();
+
+  // $('#kiosk-orders h3').text($('#kiosk-orders h3').text() + '!');
 
   $stageKioskOrder = $(this);
   $stageKioskOrder.addClass('is-loading');
