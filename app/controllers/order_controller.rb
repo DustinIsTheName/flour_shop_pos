@@ -4,7 +4,7 @@ class OrderController < ApplicationController
 	before_action :set_headers
 
 	def kiosk_order
-		puts Colorize.magenta(params["attributes"].to_hash)
+		# puts Colorize.magenta(params["attributes"].to_hash)
 
 		order = Order.new
 
