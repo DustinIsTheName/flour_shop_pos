@@ -38,7 +38,7 @@ class OrderController < ApplicationController
             end
           end
 
-          puts Colorize.bright(params_line_item_properties)
+          # puts Colorize.bright(params_line_item_properties)
 
           line_item.properties = params_line_item_properties
 			
