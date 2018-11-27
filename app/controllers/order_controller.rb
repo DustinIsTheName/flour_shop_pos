@@ -25,8 +25,22 @@ class OrderController < ApplicationController
       		line_item.variant_id = params_line_item["variant_id"]
       		line_item.quantity = params_line_item["quantity"]
       		line_item.title = params_line_item["title"]
-      		line_item.properties = params_line_item["properties"]
       		line_item.order_id = order.id
+
+          params_line_item_properties = []
+
+          if params_line_item["properties"]
+            for property in params_line_item["properties"]
+              params_line_item_properties << {
+                name: property["name"],
+                value: property["value"]
+              }
+            end
+          end
+
+          puts Colorize.bright(params_line_item_properties)
+
+          line_item.properties = params_line_item_properties
 			
 			line_item.save
 		end
