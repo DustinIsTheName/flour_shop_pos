@@ -80,6 +80,7 @@ function addKioskOrder() {
         cart.addLineItemProperties(index, propertiesObject, {
           success: function(cart) {
             console.log("Successfully added properties to item")
+            $('#kiosk-orders').append('<div class="section">'+cart+'</div>');
             // ShopifyPOS.flashNotice(JSON.stringify(cart))
           },
           error: function(errors) {
