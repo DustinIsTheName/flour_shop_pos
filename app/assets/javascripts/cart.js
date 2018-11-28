@@ -80,7 +80,7 @@ function addKioskOrder() {
         cart.addLineItemProperties(index, propertiesObject, {
           success: function(cart) {
             console.log("Successfully added properties to item")
-            ShopifyPOS.flashNotice("Successfully added "+propertiesObject+" to lineitem "+index)
+            ShopifyPOS.flashNotice("Successfully added "+JSON.stringify(propertiesObject)+" to lineitem "+index)
           },
           error: function(errors) {
             console.log("Failed to add properties to item")
