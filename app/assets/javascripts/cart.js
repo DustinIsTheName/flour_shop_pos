@@ -91,7 +91,7 @@ function addKioskOrder() {
       });
 
       successCallback("Loaded Order");
-      ShopifyPOS.Modal.close();
+      // ShopifyPOS.Modal.close();
     },
     error: function (errors) {
       ShopifyPOS.flashError("Oops! Something went wrong.")
