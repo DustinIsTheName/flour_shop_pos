@@ -60,7 +60,7 @@ class OrderController < ApplicationController
     puts Colorize.magenta(params)
 
     is_pos_kiosk = false
-    for attribute in attributes
+    for attribute in params["note_attributes"]
       if attribute["name"] == 'pos-kiosk-orders'
         is_pos_kiosk = true
         internal_order_id = attribute["value"]

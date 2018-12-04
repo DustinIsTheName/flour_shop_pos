@@ -58,6 +58,8 @@ function addKioskOrder() {
         console.log("Customer added");
       }, error: errorCallback})
 
+      order.note_attributes['pos-kiosk-orders'] = order.id;
+
       cart.addProperties(order.note_attributes, {
         success: function(cart) {
           console.log("Successfully added properties to cart")
