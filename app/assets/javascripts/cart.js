@@ -58,9 +58,10 @@ function addKioskOrder() {
         console.log("Customer added");
       }, error: errorCallback})
 
-      order.note_attributes['pos-kiosk-orders'] = order.id;
+      var note_attributes = order.note_attributes
+      note_attributes['pos-kiosk-orders'] = order.id;
 
-      cart.addProperties(order.note_attributes, {
+      cart.addProperties(note_attributes, {
         success: function(cart) {
           console.log("Successfully added properties to cart")
         },
@@ -79,7 +80,6 @@ function addKioskOrder() {
         line_item.properties.forEach(function(property) {
           propertiesObject[property.name] = property.value;
         });
-        propertiesObject['pos-kiosk-orders'] = order.id;
 
         // cart.addLineItemProperties(index, propertiesObject, {
         //   success: function(cart) {
