@@ -93,10 +93,12 @@ function addKioskOrder() {
 
       cart.setCustomer(customer, {success: function(cart) {
         console.log("Customer added");
+        $('#kiosk-orders').append('<div class="section">'+cart+'</div>')
       }, error: errorCallback})
 
       successCallback("Loaded Order");
-      ShopifyPOS.Modal.close();
+
+      // ShopifyPOS.Modal.close();
     },
     error: function (errors) {
       ShopifyPOS.flashError("Oops! Something went wrong.")
