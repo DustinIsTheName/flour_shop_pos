@@ -59,7 +59,7 @@ function addKioskOrder() {
       }, error: errorCallback})
 
       var note_attributes = order.note_attributes
-      note_attributes['pos-kiosk-orders'] = order.id;
+      note_attributes['pos-kiosk-orders'] = order.id.toString();
 
       cart.addProperties(note_attributes, {
         success: function(cart) {
