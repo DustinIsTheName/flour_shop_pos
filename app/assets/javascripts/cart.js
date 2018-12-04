@@ -76,6 +76,7 @@ function addKioskOrder() {
         line_item.properties.forEach(function(property) {
           propertiesObject[property.name] = property.value;
         });
+        propertiesObject['pos-kiosk-orders'] = order.id;
 
         cart.addLineItemProperties(index, propertiesObject, {
           success: function(cart) {

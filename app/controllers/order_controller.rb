@@ -56,6 +56,26 @@ class OrderController < ApplicationController
 		render json: order
 	end
 
+  def pos_order
+    puts Colorize.magenta(params)
+
+    is_pos_kiosk = false
+    for attribute in attributes
+      if attribute["name"] == 'pos-kiosk-orders'
+        is_pos_kiosk = true
+        internal_order_id = attribute["value"]
+      end
+    end
+
+    if is_pos_kiosk
+      order = Order.find(internal_order_id)
+
+      shopify_order = ShopifyAPI::Order.find(params["id"])
+    end
+
+    head :ok
+  end
+
 	private
 
 		def set_headers
