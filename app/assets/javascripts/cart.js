@@ -66,6 +66,7 @@ function addKioskOrder() {
         },
         error: function(errors) {
           console.log("Failed to add properties to cart")
+          ShopifyPOS.flashError("Failed to add properties to cart")
         }
       })
 
@@ -80,17 +81,17 @@ function addKioskOrder() {
         });
         propertiesObject['pos-kiosk-orders'] = order.id;
 
-        cart.addLineItemProperties(index, propertiesObject, {
-          success: function(cart) {
-            console.log("Successfully added properties to item")
-            // $('#kiosk-orders').append('<div class="section">'+JSON.stringify(cart)+'</div>');
-            // ShopifyPOS.flashNotice(JSON.stringify(cart))
-          },
-          error: function(errors) {
-            console.log("Failed to add properties to item")
-            ShopifyPOS.flashError("Failed to add properties to lineitem")
-          }
-        });
+        // cart.addLineItemProperties(index, propertiesObject, {
+        //   success: function(cart) {
+        //     console.log("Successfully added properties to item")
+        //     // $('#kiosk-orders').append('<div class="section">'+JSON.stringify(cart)+'</div>');
+        //     // ShopifyPOS.flashNotice(JSON.stringify(cart))
+        //   },
+        //   error: function(errors) {
+        //     console.log("Failed to add properties to item")
+        //     ShopifyPOS.flashError("Failed to add properties to lineitem")
+        //   }
+        // });
       });
 
       successCallback("Loaded Order");
