@@ -73,22 +73,16 @@ class OrderController < ApplicationController
 
     if is_pos_kiosk
       order = Order.find_by_id(internal_order_id)
-      puts "is_pos_kiosk"
       puts params["line_items"].first["title"]
       if order
-        puts "order"
-        puts @shop_session
         shopify_order = ShopifyAPI::Order.find(params["id"])
 
         new_cart_note = ''
         for item in order.line_items
-          puts item.title
+          param_line_item = shopify_order.line_items.select{|l| l["title"] == item.title}.first
 
-
-          param_line_item = params["line_items"].select{|l| l["title"] == item.title}.first
-
-          new_cart_note += "\n#{param_line_item["quantity"]}x - #{param_line_item["title"]}: $#{param_line_item["price"]}\n"
-          new_cart_note += "SKU: #{param_line_item["sku"]}\n"
+          new_cart_note += "\n#{param_line_item.quantity}x - #{param_line_item.title}: $#{param_line_item.price}\n"
+          new_cart_note += "SKU: #{param_line_item.sku}\n"
           for property in item.properties
             new_cart_note += "#{property[:name]}: #{property[:value]}\n"
           end
