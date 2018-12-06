@@ -81,7 +81,8 @@ class OrderController < ApplicationController
 
         new_cart_note = ''
         for item in order.line_items
-          puts item
+          puts item.title
+          puts params["line_items"]
 
           param_line_item = params["line_items"].select{|l| l["title"] == item.title}.first
 
