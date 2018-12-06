@@ -81,6 +81,7 @@ class OrderController < ApplicationController
 
         new_cart_note = ''
         for item in order.line_items
+          puts item
 
           param_line_item = params["line_items"].select{|l| l["title"] == item.title}.first
 
@@ -98,7 +99,6 @@ class OrderController < ApplicationController
           puts "saved order"
         else
           puts shopify_order.errors.messages
-
         end
       end
     end
