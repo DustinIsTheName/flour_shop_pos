@@ -59,7 +59,9 @@ class OrderController < ApplicationController
   def pos_order
     # puts Colorize.magenta(params)
 
-    ShopifyAPI::Base.site = "https://#{ENV['PRIVATE_API_KEY']}:#{ENV['PRIVATE_SECRET']}@flour-shop.myshopify.com/admin"
+    # ShopifyAPI::Base.site = "https://#{ENV['PRIVATE_API_KEY']}:#{ENV['PRIVATE_SECRET']}@flour-shop.myshopify.com/admin"
+    session = ShopifyAPI::Session.new("flour-shop.myshopify.com", Shop.first.shopify_token)
+    ShopifyAPI::Base.activate_session(session)
 
     is_pos_kiosk = false
     for attribute in params["note_attributes"]
@@ -74,7 +76,7 @@ class OrderController < ApplicationController
       puts "is_pos_kiosk"
       if order
         puts "order"
-        puts ShopifyAPI::Base.site
+        puts @shop_session
         shopify_order = ShopifyAPI::Order.find(params["id"])
 
         new_cart_note = ''
@@ -83,7 +85,7 @@ class OrderController < ApplicationController
           for property in item.properties
             new_cart_note += "#{property[:name]}: #{property[:value]}\n"
           end
-        end; nil
+        end
 
         shopify_order.note = new_cart_note
         puts new_cart_note
