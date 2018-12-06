@@ -59,6 +59,8 @@ class OrderController < ApplicationController
   def pos_order
     puts Colorize.magenta(params)
 
+    ShopifyAPI::Base.site = "https://#{ENV['PRIVATE_API_KEY']}:#{ENV['PRIVATE_SECRET']}@flour-shop.myshopify.com/admin"
+
     is_pos_kiosk = false
     for attribute in params["note_attributes"]
       if attribute["name"] == 'pos-kiosk-orders'
@@ -68,9 +70,20 @@ class OrderController < ApplicationController
     end
 
     if is_pos_kiosk
-      order = Order.find(internal_order_id)
+      order = Order.find_by_id(internal_order_id)
 
       shopify_order = ShopifyAPI::Order.find(params["id"])
+
+      new_cart_note = ''
+      for item in order.line_items
+        new_cart_note += item.title + "\n\n"
+        for property in item.properties
+          new_cart_note += "#{property[:name]}: #{property[:value]}\n"
+        end
+      end; nil
+
+      shopify_order.note = new_cart_note
+      shopify_order.save
     end
 
     head :ok
