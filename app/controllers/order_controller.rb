@@ -81,8 +81,12 @@ class OrderController < ApplicationController
         for item in order.line_items
           param_line_item = shopify_order.line_items.select{|l| l.title == item.title}.first
 
-          new_cart_note += "\n#{param_line_item.quantity}x - #{param_line_item.title}: $#{param_line_item.price}\n"
-          new_cart_note += "SKU: #{param_line_item.sku}\n"
+          if shopify_order
+            new_cart_note += "#{param_line_item.quantity}x - #{param_line_item.title}: $#{param_line_item.price}\n"
+            new_cart_note += "SKU: #{param_line_item.sku}\n"
+          else
+            new_cart_note += "#{item.title}\n"
+          end
           for property in item.properties
             new_cart_note += "#{property[:name]}: #{property[:value]}\n"
           end
