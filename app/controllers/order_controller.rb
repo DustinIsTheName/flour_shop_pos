@@ -74,6 +74,7 @@ class OrderController < ApplicationController
     if is_pos_kiosk
       order = Order.find_by_id(internal_order_id)
       puts "is_pos_kiosk"
+      puts params["line_items"].first["title"]
       if order
         puts "order"
         puts @shop_session
@@ -82,7 +83,7 @@ class OrderController < ApplicationController
         new_cart_note = ''
         for item in order.line_items
           puts item.title
-          puts params["line_items"]
+
 
           param_line_item = params["line_items"].select{|l| l["title"] == item.title}.first
 
