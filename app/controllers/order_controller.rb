@@ -57,7 +57,7 @@ class OrderController < ApplicationController
 	end
 
   def pos_order
-    puts Colorize.magenta(params)
+    # puts Colorize.magenta(params)
 
     ShopifyAPI::Base.site = "https://#{ENV['PRIVATE_API_KEY']}:#{ENV['PRIVATE_SECRET']}@flour-shop.myshopify.com/admin"
 
