@@ -71,8 +71,9 @@ class OrderController < ApplicationController
 
     if is_pos_kiosk
       order = Order.find_by_id(internal_order_id)
-
+      puts "is_pos_kiosk"
       if order
+        puts "order"
         shopify_order = ShopifyAPI::Order.find(params["id"])
 
         new_cart_note = ''
@@ -84,7 +85,13 @@ class OrderController < ApplicationController
         end; nil
 
         shopify_order.note = new_cart_note
-        shopify_order.save
+        puts new_cart_note
+        if shopify_order.save
+          puts "saved order"
+        else
+          puts shopify_order.errors.messages
+
+        end
       end
     end
 
