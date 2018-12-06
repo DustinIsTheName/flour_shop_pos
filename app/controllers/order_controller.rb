@@ -74,6 +74,7 @@ class OrderController < ApplicationController
       puts "is_pos_kiosk"
       if order
         puts "order"
+        puts ShopifyAPI::Base.site
         shopify_order = ShopifyAPI::Order.find(params["id"])
 
         new_cart_note = ''
