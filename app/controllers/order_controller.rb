@@ -72,18 +72,20 @@ class OrderController < ApplicationController
     if is_pos_kiosk
       order = Order.find_by_id(internal_order_id)
 
-      shopify_order = ShopifyAPI::Order.find(params["id"])
+      if order
+        shopify_order = ShopifyAPI::Order.find(params["id"])
 
-      new_cart_note = ''
-      for item in order.line_items
-        new_cart_note += item.title + "\n\n"
-        for property in item.properties
-          new_cart_note += "#{property[:name]}: #{property[:value]}\n"
-        end
-      end; nil
+        new_cart_note = ''
+        for item in order.line_items
+          new_cart_note += item.title + "\n\n"
+          for property in item.properties
+            new_cart_note += "#{property[:name]}: #{property[:value]}\n"
+          end
+        end; nil
 
-      shopify_order.note = new_cart_note
-      shopify_order.save
+        shopify_order.note = new_cart_note
+        shopify_order.save
+      end
     end
 
     head :ok
