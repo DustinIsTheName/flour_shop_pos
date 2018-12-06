@@ -81,10 +81,15 @@ class OrderController < ApplicationController
 
         new_cart_note = ''
         for item in order.line_items
-          new_cart_note += item.title + "\n\n"
+
+          param_line_item = params["line_items"].select{|l| l["title"] == item.title}.first
+
+          new_cart_note += "\n#{param_line_item["quantity"]}x - #{param_line_item["title"]}: $#{param_line_item["price"]}\n"
+          new_cart_note += "SKU: #{param_line_item["sku"]}\n"
           for property in item.properties
             new_cart_note += "#{property[:name]}: #{property[:value]}\n"
           end
+          new_cart_note += "\n"
         end
 
         shopify_order.note = new_cart_note
